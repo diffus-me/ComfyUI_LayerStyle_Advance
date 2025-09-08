@@ -51,7 +51,7 @@ class LS_LlamaVision:
         if self.previous_model is not None:
             llama_vision_model = self.previous_model
         else:
-            model_path = os.path.join(folder_paths.models_dir, 'LLM', model)
+            model_path = os.path.join(folder_paths.models_dir, "LayerStyle", 'LLM', model)
             # Don't load the full model until needed for generation
             processor = AutoProcessor.from_pretrained(model_path)
             llama_vision_model = {

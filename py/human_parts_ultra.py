@@ -9,7 +9,7 @@ import folder_paths
 from .imagefunc import pil2tensor, tensor2pil, image2mask, mask2image, log, RGB2RGBA, histogram_remap
 from .imagefunc import generate_VITMatte_trimap, generate_VITMatte, mask_edge_detail, guided_filter_alpha
 
-models_dir_path = os.path.join(folder_paths.models_dir, "onnx", "human-parts")
+models_dir_path = os.path.join(folder_paths.models_dir, "LayerStyle" "onnx", "human-parts")
 model_url = "https://huggingface.co/Metal3d/deeplabv3p-resnet50-human/resolve/main/deeplabv3p-resnet50-human.onnx"
 model_name = os.path.basename(model_url)
 model_path = os.path.join(models_dir_path, "deeplabv3p-resnet50-human.onnx")

@@ -61,7 +61,7 @@ groundingdino_model_list = {
 }
 
 def get_bert_base_uncased_model_path():
-    comfy_bert_model_base = os.path.join(folder_paths.models_dir, 'bert-base-uncased')
+    comfy_bert_model_base = os.path.join(folder_paths.models_dir, 'LayerStyle', 'bert-base-uncased')
     if glob.glob(os.path.join(comfy_bert_model_base, '**/model.safetensors'), recursive=True):
         print('grounding-dino is using models/bert-base-uncased')
         return comfy_bert_model_base
@@ -89,12 +89,7 @@ def get_local_filepath(url, dirname, local_file_name=None):
         parsed_url = urlparse(url)
         local_file_name = os.path.basename(parsed_url.path)
 
-    destination = folder_paths.get_full_path(dirname, local_file_name)
-    if destination:
-        logger.warn(f'using extra model: {destination}')
-        return destination
-
-    folder = os.path.join(folder_paths.models_dir, dirname)
+    folder = os.path.join(folder_paths.models_dir, 'LayerStyle', dirname)
     if not os.path.exists(folder):
         os.makedirs(folder)
 

@@ -3,6 +3,8 @@
 import os
 import numpy as np
 import torch
+
+import execution_context
 import folder_paths
 # import node_helpers
 from nodes import LoadImage
@@ -12,8 +14,8 @@ from .imagefunc import pil2tensor, log, generate_text_image, get_resource_dir
 
 class LoadPSD(LoadImage):
     @classmethod
-    def INPUT_TYPES(s):
-        input_dir = folder_paths.get_input_directory()
+    def INPUT_TYPES(s, exec_context: execution_context.ExecutionContext):
+        input_dir = folder_paths.get_input_directory(user_hash=exec_context.user_hash)
         files = [f for f in os.listdir(input_dir) if os.path.isfile(
             os.path.join(input_dir, f)) and f.endswith(".psd")]
         fine_layer_method = ["layer_index", "layer_name"]
@@ -26,7 +28,10 @@ class LoadPSD(LoadImage):
                     "layer_name": ("STRING", {"default": ""}),
                     },
                 "optional": {
-                    }
+                    },
+                "hidden": {
+                    "exec_context": "EXECUTION_CONTEXT",
+                }
                 }
 
 
@@ -35,7 +40,7 @@ class LoadPSD(LoadImage):
     FUNCTION = "load_psd"
     CATEGORY = '😺dzNodes/LayerUtility/SystemIO'
 
-    def load_psd(self, image, file_path, include_hidden_layer, layer_index, find_layer_by, layer_name,):
+    def load_psd(self, image, file_path, include_hidden_layer, layer_index, find_layer_by, layer_name, exec_context: execution_context.ExecutionContext):
 
         from psd_tools import PSDImage
         from psd_tools.api.layers import Layer
@@ -47,9 +52,9 @@ class LoadPSD(LoadImage):
         layer_image = []
         all_layers = []
         if file_path == "":
-            psd_file_path = folder_paths.get_annotated_filepath(image)
+            psd_file_path = folder_paths.get_annotated_filepath(image, user_hash=exec_context.user_hash)
         else:
-            psd_file_path = folder_paths.get_annotated_filepath(file_path)
+            psd_file_path = folder_paths.get_annotated_filepath(file_path, user_hash=exec_context.user_hash)
         flat_image = Image.open(psd_file_path).convert("RGB")
         width, height = flat_image.size
 

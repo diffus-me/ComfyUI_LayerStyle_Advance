@@ -3,8 +3,9 @@
 import copy
 import os.path
 from .imagefunc import *
+import folder_paths
 
-model_path = os.path.join(folder_paths.models_dir, 'yolo')
+model_path = os.path.join(folder_paths.models_dir, 'LayerStyle', 'yolo')
 
 class YoloV8Detect:
 

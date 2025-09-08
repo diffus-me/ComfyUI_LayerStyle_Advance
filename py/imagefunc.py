@@ -9,6 +9,9 @@ by chflame https://github.com/chflame163
 
 import os
 import sys
+
+import execution_context
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import pickle
 import copy
@@ -88,11 +91,11 @@ def load_pickle(file_name:str) -> object:
     return obj
 
 def load_light_leak_images() -> list:
-    file = os.path.join(folder_paths.models_dir, "layerstyle", "light_leak.pkl")
+    file = os.path.join(folder_paths.models_dir, "LayerStyle", "layerstyle", "light_leak.pkl")
     return load_pickle(file)
 
 def check_and_download_model(model_path, repo_id):
-    model_path = os.path.join(folder_paths.models_dir, model_path)
+    model_path = os.path.join(folder_paths.models_dir, "LayerStyle", model_path)
 
     if not os.path.exists(model_path):
         print(f"Downloading {repo_id} model...")
@@ -1288,12 +1291,12 @@ def watermark_image_size(image:Image) -> int:
     size = int(math.sqrt(image.width * image.height * 0.015625) * 0.9)
     return size
 
-def add_invisibal_watermark(image:Image, watermark_image:Image) -> Image:
+def add_invisibal_watermark(exec_context: execution_context.ExecutionContext, image:Image, watermark_image:Image) -> Image:
     """
     Adds an invisible watermark to an image.
     """
     orig_image_mode = image.mode
-    temp_dir = os.path.join(folder_paths.get_temp_directory(), generate_random_name('_watermark_', '_temp', 16))
+    temp_dir = os.path.join(folder_paths.get_temp_directory(user_hash=exec_context.user_hash), generate_random_name('_watermark_', '_temp', 16))
     if os.path.isdir(temp_dir):
         shutil.rmtree(temp_dir)
     image_dir = os.path.join(temp_dir, 'image')
@@ -1332,7 +1335,7 @@ def add_invisibal_watermark(image:Image, watermark_image:Image) -> Image:
 
     return Image.open(output_image).convert(orig_image_mode)
 
-def decode_watermark(image:Image, watermark_image_size:int=94) -> Image:
+def decode_watermark(exec_context: execution_context.ExecutionContext, image:Image, watermark_image_size:int=94) -> Image:
     temp_dir = os.path.join(folder_paths.get_temp_directory(), generate_random_name('_watermark_', '_temp', 16))
     if os.path.isdir(temp_dir):
         shutil.rmtree(temp_dir)
@@ -1483,7 +1486,7 @@ def load_RMBG_model():
     except:
         pass
     if not os.path.exists(model_path):
-        model_path = os.path.join(folder_paths.models_dir, "rmbg", "RMBG-1.4", "model.pth")
+        model_path = os.path.join(folder_paths.models_dir, 'LayerStyle', "rmbg", "RMBG-1.4", "model.pth")
     if not os.path.exists(model_path):
         model_path = os.path.join(os.path.dirname(current_directory), "RMBG-1.4", "model.pth")
     net.load_state_dict(torch.load(model_path, map_location=device, weights_only=True))
@@ -1630,7 +1633,7 @@ def get_a_person_mask_generator_model_path() -> str:
     except:
         pass
     if not os.path.exists(model_file_path):
-        model_file_path = os.path.join(folder_paths.models_dir, model_folder_name, model_name)
+        model_file_path = os.path.join(folder_paths.models_dir, "LayerStyle", model_folder_name, model_name)
 
     if not os.path.exists(model_file_path):
         import wget
@@ -2159,7 +2162,7 @@ def remove_duplicate_string(text:str) -> str:
             unique_sentences.append(sentence)
     return ' '.join(unique_sentences)
 
-files_for_uform_gen2_qwen = Path(os.path.join(folder_paths.models_dir, "LLavacheckpoints", "files_for_uform_gen2_qwen"))
+files_for_uform_gen2_qwen = Path(os.path.join(folder_paths.models_dir, "LayerStyle", "LLavacheckpoints", "files_for_uform_gen2_qwen"))
 class StopOnTokens(StoppingCriteria):
     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
         stop_ids = [151645]  # Define stop tokens as per your model's specifics
@@ -2248,7 +2251,7 @@ class AnyType(str):
 
 def download_hg_model(model_id:str,exDir:str='') -> str:
     # 下载本地
-    model_checkpoint = os.path.join(folder_paths.models_dir, exDir, os.path.basename(model_id))
+    model_checkpoint = os.path.join(folder_paths.models_dir, "LayerStyle", exDir, os.path.basename(model_id))
     if not os.path.exists(model_checkpoint):
         from huggingface_hub import snapshot_download
         snapshot_download(repo_id=model_id, local_dir=model_checkpoint, local_dir_use_symlinks=False)

@@ -8,6 +8,8 @@ from comfy.utils import ProgressBar
 from comfy.utils import load_torch_file
 from contextlib import nullcontext
 from .imagefunc import *
+import folder_paths
+
 
 def bboxes2coordinates(bboxes:list) -> list:
     coordinates = []
@@ -269,7 +271,7 @@ class LS_SAM2_ULTRA:
         ret_masks = []
 
         # load model
-        sam2_path = os.path.join(folder_paths.models_dir, "sam2")
+        sam2_path = os.path.join(folder_paths.models_dir, 'LayerStyle', "sam2")
         if precision != 'fp32' and "2.1" in sam2_model:
             base_name, extension = sam2_model.rsplit('.', 1)
             sam2_model = f"{base_name}-fp16.{extension}"
@@ -482,7 +484,7 @@ class LS_Load_SAM2_Model:
     def load_sam2_model(self, sam2_model, precision, device):
 
         # load model
-        sam2_path = os.path.join(folder_paths.models_dir, "sam2")
+        sam2_path = os.path.join(folder_paths.models_dir, 'LayerStyle', "sam2")
         if precision != 'fp32' and "2.1" in sam2_model:
             base_name, extension = sam2_model.rsplit('.', 1)
             sam2_model = f"{base_name}-fp16.{extension}"
@@ -798,7 +800,7 @@ class LS_SAM2_VIDEO_ULTRA:
                 return (image, None)
 
         # load model
-        sam2_path = os.path.join(folder_paths.models_dir, "sam2")
+        sam2_path = os.path.join(folder_paths.models_dir, 'LayerStyle', "sam2")
         if precision != 'fp32' and "2.1" in sam2_model:
             base_name, extension = sam2_model.rsplit('.', 1)
             sam2_model = f"{base_name}-fp16.{extension}"

@@ -8,6 +8,8 @@ import colorsys
 from transformers.dynamic_module_utils import get_imports
 import comfy.model_management
 from .imagefunc import *
+import folder_paths
+
 
 colormap = ['blue', 'orange', 'green', 'purple', 'brown', 'pink', 'gray', 'olive', 'cyan', 'red',
             'lime', 'indigo', 'violet', 'aqua', 'magenta', 'coral', 'gold', 'tan', 'skyblue']
@@ -44,7 +46,7 @@ def fixed_get_imports(filename) -> list[str]:
     return imports
 
 def load_model(version):
-    florence_path = os.path.join(folder_paths.models_dir, "florence2")
+    florence_path = os.path.join(folder_paths.models_dir, 'LayerStyle', "florence2")
     os.makedirs(florence_path, exist_ok=True)
 
     model_path = os.path.join(florence_path, version)

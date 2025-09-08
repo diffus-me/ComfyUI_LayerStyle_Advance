@@ -4,6 +4,8 @@ import os.path
 import shutil
 from PIL.PngImagePlugin import PngInfo
 import datetime
+
+import execution_context
 from .imagefunc import *
 
 
@@ -29,7 +31,7 @@ class SaveImagePlus:
                      "save_workflow_as_json": ("BOOLEAN", {"default": False}),
                      "preview": ("BOOLEAN", {"default": True}),
                      },
-                "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO"},
+                "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO", "exec_context": "EXECUTION_CONTEXT"},
                 }
 
     RETURN_TYPES = ()
@@ -39,7 +41,8 @@ class SaveImagePlus:
 
     def save_image_plus(self, images, custom_path, filename_prefix, timestamp, format, quality,
                            meta_data, blind_watermark, preview, save_workflow_as_json,
-                           prompt=None, extra_pnginfo=None):
+                           prompt=None, extra_pnginfo=None,
+                           exec_context: execution_context.ExecutionContext=None):
 
         now = datetime.datetime.now()
         custom_path = custom_path.replace("%date", now.strftime("%Y-%m-%d"))
@@ -71,7 +74,7 @@ class SaveImagePlus:
                 qr_image = qr_image.resize((wm_size, wm_size), Image.BICUBIC).convert("L")
 
                 y, u, v, _ = image_channel_split(img, mode='YCbCr')
-                _u = add_invisibal_watermark(u, qr_image)
+                _u = add_invisibal_watermark(exec_context, u, qr_image)
                 wm_img = image_channel_merge((y, _u, v), mode='YCbCr')
 
                 if img.mode == "RGBA":
@@ -198,7 +201,7 @@ class SaveImagePlusV2:
                      "save_workflow_as_json": ("BOOLEAN", {"default": False}),
                      "preview": ("BOOLEAN", {"default": True}),
                      },
-                "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO"},
+                "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO", "exec_context": "EXECUTION_CONTEXT"},
                 }
 
     RETURN_TYPES = ()
@@ -209,7 +212,8 @@ class SaveImagePlusV2:
     def save_image_plus_v2(self, images, custom_path, custom_filename, filename_prefix,
                            timestamp, dpi, format, quality,
                            meta_data, blind_watermark, preview, save_workflow_as_json,
-                           prompt=None, extra_pnginfo=None):
+                           prompt=None, extra_pnginfo=None,
+                           exec_context: execution_context.ExecutionContext=None):
 
         now = datetime.datetime.now()
         custom_path = custom_path.replace("%date", now.strftime("%Y-%m-%d"))
@@ -242,7 +246,7 @@ class SaveImagePlusV2:
                 qr_image = qr_image.resize((wm_size, wm_size), Image.BICUBIC).convert("L")
 
                 y, u, v, _ = image_channel_split(img, mode='YCbCr')
-                _u = add_invisibal_watermark(u, qr_image)
+                _u = add_invisibal_watermark(exec_context, u, qr_image)
                 wm_img = image_channel_merge((y, _u, v), mode='YCbCr')
 
                 if img.mode == "RGBA":

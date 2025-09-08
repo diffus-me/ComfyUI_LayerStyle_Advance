@@ -9,10 +9,11 @@ import tqdm
 from .imagefunc import *
 from comfy.utils import ProgressBar
 sys.path.append(os.path.join(os.path.dirname(__file__), 'BiRefNet_v2'))
+import folder_paths
 
 
 def get_models():
-    model_path = os.path.join(folder_paths.models_dir, 'BiRefNet', 'pth')
+    model_path = os.path.join(folder_paths.models_dir, 'LayerStyle', 'BiRefNet', 'pth')
     model_ext = [".pth"]
     model_dict = get_files(model_path, model_ext)
     return model_dict
@@ -78,7 +79,7 @@ class LS_LoadBiRefNetModelV2:
     }
 
     def load_birefnet_model(self, version):
-        birefnet_path = os.path.join(folder_paths.models_dir, 'BiRefNet')
+        birefnet_path = os.path.join(folder_paths.models_dir, 'LayerStyle', 'BiRefNet')
         os.makedirs(birefnet_path, exist_ok=True)
 
         model_path = os.path.join(birefnet_path, version)

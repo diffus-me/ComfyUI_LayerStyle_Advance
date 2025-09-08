@@ -8,7 +8,7 @@ from transformers import AutoModelForCausalLM, AutoProcessor, AutoTokenizer, pip
 import folder_paths
 from .imagefunc import log, clear_memory
 
-model_path = os.path.join(folder_paths.models_dir, 'LLM')
+model_path = os.path.join(folder_paths.models_dir, 'LayerStyle', 'LLM')
 
 class LS_PhiModel:
     def __init__(self, name, device, dtype):

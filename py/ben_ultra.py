@@ -9,6 +9,7 @@ from einops import rearrange
 from PIL import Image, ImageFilter, ImageOps
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 from torchvision import transforms
+import folder_paths
 
 
 class Mlp(nn.Module):
@@ -948,7 +949,7 @@ from .imagefunc import mask_edge_detail, guided_filter_alpha, generate_VITMatte,
 
 
 def get_models():
-    model_path = os.path.join(folder_paths.models_dir, 'BEN')
+    model_path = os.path.join(folder_paths.models_dir, 'LayerStyle', 'BEN')
     model_ext = [".pth"]
     model_dict = get_files(model_path, model_ext)
     return model_dict

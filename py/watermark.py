@@ -17,6 +17,9 @@ class EncodeBlindWaterMark:
                 "watermark_image": ("IMAGE",),  #
             },
             "optional": {
+            },
+            "hidden": {
+                "exec_context": "EXECUTION_CONTEXT",
             }
         }
 
@@ -25,7 +28,7 @@ class EncodeBlindWaterMark:
     FUNCTION = 'watermark_encode'
     CATEGORY = '😺dzNodes/LayerUtility/SystemIO'
 
-    def watermark_encode(self, image, watermark_image):
+    def watermark_encode(self, image, watermark_image, exec_context: execution_context.ExecutionContext):
 
         NODE_NAME = 'Add BlindWaterMark'
 
@@ -47,7 +50,7 @@ class EncodeBlindWaterMark:
             _wm_image = _wm_image.convert("L")
 
             y, u, v, _ = image_channel_split(_image, mode='YCbCr')
-            _u = add_invisibal_watermark(u, _wm_image)
+            _u = add_invisibal_watermark(exec_context, u, _wm_image)
             ret_image = image_channel_merge((y, _u, v), mode='YCbCr')
 
             if _image.mode == "RGBA":
@@ -72,6 +75,9 @@ class DecodeBlindWaterMark:
                 "image": ("IMAGE",),  #
             },
             "optional": {
+            },
+            "hidden": {
+                "exec_context": "EXECUTION_CONTEXT",
             }
         }
 
@@ -80,7 +86,7 @@ class DecodeBlindWaterMark:
     FUNCTION = 'watermark_decode'
     CATEGORY = '😺dzNodes/LayerUtility/SystemIO'
 
-    def watermark_decode(self, image):
+    def watermark_decode(self, image, exec_context: execution_context.ExecutionContext):
 
         NODE_NAME = 'Decode BlindWaterMark'
 
@@ -91,7 +97,7 @@ class DecodeBlindWaterMark:
             _image = tensor2pil(_image)
             wm_size = watermark_image_size(_image)
             y, u, v, _ = image_channel_split(_image, mode='YCbCr')
-            ret_image = decode_watermark(u, wm_size)
+            ret_image = decode_watermark(exec_context, u, wm_size)
             ret_image = ret_image.resize((512, 512), Image.LANCZOS)
             ret_image = normalize_gray(ret_image)
             ret_images.append(pil2tensor(ret_image.convert('RGB')))

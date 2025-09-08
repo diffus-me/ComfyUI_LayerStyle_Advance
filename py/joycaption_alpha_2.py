@@ -83,7 +83,7 @@ def load_models(model_path, dtype, vlm_lora, device):
 
     use_lora = True if vlm_lora != "none" else False
     CLIP_PATH = download_hg_model("google/siglip-so400m-patch14-384", "clip")
-    CHECKPOINT_PATH = os.path.join(folder_paths.models_dir, "Joy_caption", "cgrkzexw-599808")
+    CHECKPOINT_PATH = os.path.join(folder_paths.models_dir, "LayerStyle", "Joy_caption", "cgrkzexw-599808")
     LORA_PATH = os.path.join(CHECKPOINT_PATH, "text_model")
 
     try:

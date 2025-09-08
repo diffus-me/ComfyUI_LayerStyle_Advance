@@ -8,6 +8,9 @@ import sys
 from .imagefunc import *
 sys.path.append(os.path.join(os.path.dirname(__file__), 'evf_sam'))
 from evf_sam.evf_sam_inference import evf_sam_main
+import folder_paths
+
+
 class EVF_SAM_Ultra:
 
     def __init__(self):
@@ -78,7 +81,7 @@ class EVF_SAM_Ultra:
         except:
             pass
         if not os.path.exists(model_path):
-            model_path = os.path.join(folder_paths.models_dir, model_folder_name, model)
+            model_path = os.path.join(folder_paths.models_dir, 'LayerStyle', model_folder_name, model)
 
         for i in image:
             i = torch.unsqueeze(i, 0)

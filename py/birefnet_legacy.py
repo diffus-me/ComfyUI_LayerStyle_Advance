@@ -6,6 +6,8 @@ import torch.nn as nn
 from torchvision import transforms
 from .BiRefNet_legacy.baseline import BiRefNet
 from .BiRefNet_legacy.config import Config
+import folder_paths
+
 
 class BiRefNet_img_processor:
     def __init__(self, config):
@@ -62,7 +64,7 @@ class BiRefNetRemoveBackground:
             except:
                 pass
             if not os.path.exists(model_file_path):
-                model_file_path = os.path.join(folder_paths.models_dir, model_folder_name, model_name)
+                model_file_path = os.path.join(folder_paths.models_dir, 'LayerStyle', model_folder_name, model_name)
             self.load(model_file_path, device=device)
 
         i = pil2tensor(image)

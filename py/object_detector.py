@@ -247,7 +247,7 @@ class LS_OBJECT_DETECTOR_YOLO8:
     @classmethod
     def INPUT_TYPES(cls):
         model_ext = [".pt"]
-        model_path = os.path.join(folder_paths.models_dir, 'yolo')
+        model_path = os.path.join(folder_paths.models_dir, 'LayerStyle', 'yolo')
         FILES_DICT = get_files(model_path, model_ext)
         FILE_LIST = list(FILES_DICT.keys())
         return {
@@ -270,7 +270,7 @@ class LS_OBJECT_DETECTOR_YOLO8:
     def object_detector_yolo8(self, image, yolo_model, sort_method, bbox_select, select_index):
 
         from  ultralytics import YOLO
-        model_path = os.path.join(folder_paths.models_dir, 'yolo')
+        model_path = os.path.join(folder_paths.models_dir, 'LayerStyle', 'yolo')
         yolo_model = YOLO(os.path.join(model_path, yolo_model))
 
         ret_bboxes = []
@@ -307,7 +307,7 @@ class LS_OBJECT_DETECTOR_YOLOWORLD:
 
     def __init__(self):
         self.NODE_NAME = 'Object Detector YOLO-WORLD'
-        self.model_path = os.path.join(folder_paths.models_dir, 'yolo-world')
+        self.model_path = os.path.join(folder_paths.models_dir, 'LayerStyle', 'yolo-world')
         os.environ['MODEL_CACHE_DIR'] = self.model_path
 
     @classmethod
